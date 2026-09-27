@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Extractor de PDF</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+  <main class="contenedor">
+    <nav class="nav"><a href="{{ url_for('docs.index') }}">¿Cómo funciona?</a></nav>
+    <h1>Extractor de PDF</h1>
+
+    <form action="{{ url_for('pdf.cargar') }}" method="post" enctype="multipart/form-data" class="cargar">
+      <label class="boton">
+        CARGAR PDF
+        <input type="file" name="pdf" accept="application/pdf,.pdf" hidden
+               onchange="if (this.files.length) this.form.submit()">
+      </label>
+    </form>
+
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if document %}
+      <p class="archivo">{{ document.name }}</p>
+
+      {% for text in pages %}
+        <section class="pagina">
+          <h2>Página {{ loop.index }}</h2>
+          {% if text %}
+            <pre>{{ text }}</pre>
+          {% else %}
+            <p class="vacia">(Esta página no contiene texto extraíble)</p>
+          {% endif %}
+        </section>
+      {% endfor %}
+
+      <form action="{{ url_for('pdf.exportar', doc_id=document.id) }}" method="get" class="acciones">
+        <button type="submit" class="boton">Exportar a TXT</button>
+      </form>
+    {% endif %}
+  </main>
+</body>
+</html>

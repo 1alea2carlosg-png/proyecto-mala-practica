@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Entorno virtual
+.venv
+
+# Configuración local de Claude Code
+.claude/
+
+# PDFs de prueba
+*.pdf
